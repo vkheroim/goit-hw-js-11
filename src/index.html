@@ -7,13 +7,21 @@
     <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <form id="search-form">
-      <input type="text" id="search-input" placeholder="Enter your search" />
-      <button type="submit">Search</button>
-    </form>
-
-    <div id="gallery" class="simplelightbox"></div>
-
-    <script src="main.js"></script>
+    <div class="form-wrap container">
+      <form class="search-form">
+        <input
+          type="text"
+          name="searchRequest"
+          placeholder="Search images..."
+          autofocus
+        />
+        <button type="search" class="searchBtn">Search</button>
+      </form>
+    </div>
+    <div class="loader" id="loader"></div>
+    <div class="gallery container">
+      <ul class="gallery-list"></ul>
+    </div>
+    <script type="module" src="./main.js"></script>
   </body>
 </html>

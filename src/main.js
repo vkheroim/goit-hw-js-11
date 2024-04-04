@@ -1,30 +1,21 @@
-import { searchImages } from './js/pixabay-api.js';
-import { renderImages, showAlert } from './js/render-functions.js';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import 'izitoast/dist/css/iziToast.min.css';
 
-const form = document.getElementById('search-form');
-const searchInput = document.getElementById('search-input');
-const gallery = document.getElementById('gallery');
-const loader = document.getElementById('loader');
+import onSearch from './js/pixabay-api'; // Імпорт функції для виконання пошуку
 
-form.addEventListener('submit', async e => {
-  e.preventDefault();
-  const query = searchInput.value.trim();
-  if (query === '') return;
-  loader.style.display = 'block';
-  gallery.innerHTML = '';
-  try {
-    const images = await searchImages(query);
-    if (images.length === 0) {
-      showAlert('No images found. Please try again.');
-    } else {
-      renderImages(images, gallery);
-    }
-  } catch (error) {
-    showAlert(
-      'An error occurred while fetching images. Please try again later.'
-    );
-  }
-  loader.style.display = 'none';
-});
+const form = document.querySelector('.search-form');
+const galleryList = document.querySelector('.gallery');
+const loader = document.querySelector('.loader');
 
-// Initialize SimpleLightbox or any other functionality here if needed
+form.addEventListener('submit', onFormSubmit);
+loader.hidden = true; // Приховання елемента завантаження за замовчуванням
+
+function onFormSubmit(evt) {
+  evt.preventDefault();
+  galleryList.innerHTML = ''; // Очищення списку галереї перед новим запитом
+  loader.hidden = false; // Відображення елемента завантаження
+  const { searchRequest } = evt.currentTarget.elements; // Отримання значення пошукового запиту з форми
+  let searchQuery = searchRequest.value; // Збереження пошукового запиту
+  onSearch(searchQuery);
+  form.reset();
+}
